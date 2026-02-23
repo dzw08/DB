@@ -6,9 +6,10 @@ from db_eplusout_reader.constants import RP, H
 import tkinter as tk
 import matplotlib as mpl
 
-# parse eso file, usually ask for user input, however using example for now
+# parse output file, usually ask for user input, however using example for now
 
 #print("Enter eso file path")
 #path = input()
-path = r"/home/dani/DB/eplusout.eso"
-eso = DBEsoFile.from_path(path)  
+path = r"/home/dani/DB/eplusout.sql"
+temperature_results = get_results(path, variables=[Variable(None,None,"C")], frequency=H)
+print(temperature_results)
