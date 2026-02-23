@@ -1,0 +1,34 @@
+[project]
+name = "db-file-reader"
+version = "0.1.0"
+description = "Python tool using db-eplusout-reader that reads EnergyPlus output files"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.5.1",
+    "pylint>=4.0.5",
+    "ruff>=0.15.2",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "I",   # isort
+    "C90", # mccabe complexity
+]
+ignore = ["E203"]
+
+[tool.pylint."messages control"]
+disable = [
+	"C0301", # line-too-long (handled by ruff)
+	"W0212", # protcted-access
+	"W0612", # unused-variable
+	"W1514", # unspecified-encoding
+	"C0114", # missing-module-docstring
+	"C0116", # missing-function-docstring
+]
