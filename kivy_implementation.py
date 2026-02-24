@@ -12,8 +12,7 @@ from db_eplusout_reader.constants import H
 from kivy.app import App
 from kivy.resources import resource_add_path
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
+from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 from numpy import arange
 
 # parse output file, usually ask for user input, however using example for now
@@ -80,7 +79,7 @@ def plot_results(results_values, results_keys, data_type):
     for i in range(hours_passed):
         hours.append(i)
 
-    plt.figure(figsize=(10, 6), dpi=100, layout="constrained")
+    plt.figure(dpi=100, layout="constrained")
     # enumerate through the headers to label each line
     for i, keys in enumerate(results_keys):
         plt.plot(
@@ -94,7 +93,6 @@ def plot_results(results_values, results_keys, data_type):
     plt.xlabel("Hours passed")
     plt.ylabel(f"{data_type} in {results_keys[0][2]}")
     plt.title(f"{data_type} results")
-    plt.legend()
     return plt
 
 
@@ -107,12 +105,8 @@ plot = plot_results(temperature_result_values, temperature_result_keys, "Tempera
 
 # setting up front page class
 class FrontPage(BoxLayout):
-    def __init__(self, **kwargs):
-        super(FrontPage, self).__init__(**kwargs)
-        self.orientation = "horizontal"
-        title_label = Label(text="Results Plotter")
-        self.add_widget(title_label)
-        self.add_widget(Button(label="hello"))
+    def show(self):
+        self.add_widget(FigureCanvasKivyAgg(plot.gcf()))
 
 
 # setting up app class from KivyApp for main app

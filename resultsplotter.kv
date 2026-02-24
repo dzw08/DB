@@ -1,0 +1,18 @@
+<FrontPage>:
+
+    orientation: 'vertical'
+
+    BoxLayout:
+        padding: 5
+        canvas.before:
+            Color:
+                rgba: 255,255,255,1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        Button:
+            id: show
+            text: "Show results"
+            on_release: root.show()
+            color: (0,0,0)
