@@ -4,8 +4,10 @@
 # import matplotlib as mpl
 from json import dump
 
+import matplotlib.pyplot as plt
 from db_eplusout_reader import Variable, get_results
 from db_eplusout_reader.constants import H
+from numpy import arange
 
 # parse output file, usually ask for user input, however using example for now
 
@@ -19,27 +21,61 @@ def collect_temperature_results(path):
 
     Parameters
     ----------
-    path : location of sql file to be parsed
+    path
+        location of sql file to be parsed
 
     Returns
     -------
-    dictionary
-        Results of file parsing.
+    temp_results
+        dictionary
+        Raw Results object of file parsing.
+    temp_results_keys
+        list
+        Location, description and units of temperatures.
+    temp_results_values
+        list
+        Raw values of temperatures.
     """
-    return get_results(path, variables=[Variable(None, None, "C")], frequency=H)
+    temp_results = get_results(path, variables=[Variable(None, None, "C")], frequency=H)
+
+    # casting to list so can be serialized to json object, just using values
+    temp_results_values = list(temp_results.values())
+    with open("results_values.json", "w") as f:
+        dump(temp_results_values, f, indent=4)
+
+    # casting to list so can be serialied to json objects, just using headers/keys
+    temp_results_keys = list(temp_results.keys())
+    with open("results_keys.json", "w") as f:
+        dump(temp_results_keys, f, indent=4)
+
+    return temp_results, temp_results_keys, temp_results_values
 
 
 # collecting temperature results
-temperature_results = collect_temperature_results(PATH_TO_FILE)
+temperature_results, temperature_results_keys, temperature_results_values = (
+    collect_temperature_results(PATH_TO_FILE)
+)
 
-# casting to list so can be serialized to json object, just using values
-temperature_results_values = list(temperature_results.values())
-with open("results_values.json", "w") as f:
-    dump(temperature_results_values, f, indent=4)
-
-# casting to list so can be serialied to json objects, just using headers/keys
-temperature_results_keys = list(temperature_results.keys())
-with open("results_keys.json", "w") as f:
-    dump(temperature_results_keys, f, indent=4)
 
 # plot the results using matplotlib
+hours_passed = len(temperature_results_values[0])
+hours = []
+for i in range(hours_passed):
+    hours.append(i)
+
+plt.figure(figsize=(10, 6), dpi=100, layout="constrained")
+# enumerate through the headers to label each line
+for i, keys in enumerate(temperature_results_keys):
+    plt.plot(
+        hours,
+        temperature_results_values[i],
+        label=f"{keys[0]} {keys[1]}",
+    )  # plotting the data on the axes
+
+# labels
+plt.xticks(arange(0, hours_passed + 1, 24))
+plt.xlabel("Hours passed")
+plt.ylabel(f"Temperature in {temperature_results_keys[0][2]}")
+plt.title("Temperature results")
+plt.legend()
+plt.show()
