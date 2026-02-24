@@ -110,7 +110,7 @@ class DataScreen(Screen):
     def __init__(self, **kwargs):
         super(DataScreen, self).__init__(**kwargs)
         layout = FloatLayout()
-        layout1 = BoxLayout(padding=5, orientation="horizontal", size_hint=(1, 0.3))
+        layout1 = BoxLayout(padding=5, orientation="horizontal", size_hint=(1, 0.2))
 
         # adding background
         with layout1.canvas.before:
@@ -121,12 +121,13 @@ class DataScreen(Screen):
             pos=lambda inst, val: setattr(self._header_rect, "pos", val),
         )
 
+        plot = self.plot_graph(PATH_TO_FILE)
+
         # assigning the plotted Kivy-compatible matplotlib graph to variable
-        plot = self.plot_graph()
         graph = FigureCanvasKivyAgg(plot.gcf())
         # ensure the graph fills the space above the bottom bar
-        graph.size_hint = (1, 0.7)
-        graph.pos_hint = {"x": 0, "y": 0.3}
+        graph.size_hint = (1, 0.8)
+        graph.pos_hint = {"x": 0, "y": 0.2}
 
         layout.add_widget(graph)
         layout1.add_widget(Label(text="Graph"))
@@ -144,13 +145,14 @@ class DataScreen(Screen):
 
         self.add_widget(layout)
 
-    def plot_graph(self):
+    def plot_graph(self, path_to_file):
         temperature_results, temperature_result_keys, temperature_result_values = (
-            collect_temperature_results(PATH_TO_FILE)
+            collect_temperature_results(path_to_file)
         )
         plot = plot_results(
             temperature_result_values, temperature_result_keys, "Temperature"
         )
+
         return plot
 
 

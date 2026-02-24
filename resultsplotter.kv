@@ -2,9 +2,9 @@
 
     FloatLayout:
         BoxLayout:
-            padding: 5
-            size_hint: (1,.3)
-            #pos_hint: {'x': .25, 'y': .4}
+            padding:5
+            size_hint: (1,.15)
+            pos_hint: {'x': 0, 'y': .85}
             canvas.before:
                 Color:
                     rgba: .129,.149,.192,1
@@ -12,14 +12,30 @@
                     size: self.size
                     pos: self.pos
             Label:
-                id: title
+                id: header
                 text: 'DB EPlusOut Results Manager'
                 color: (1,1,1,1)
+
+        BoxLayout:
+            padding: 5
+            size_hint: (1,.2)
+            #pos_hint: {'x': 0, 'y': 0}
+            canvas.before:
+                Color:
+                    rgba: .129,.149,.192,1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                id: home
+                text: 'Home'
+                text_color: (1,1,1,1)
 
             Button:
                 id: show
                 text: "Show results"
-                text_color: (0,0,0)
+                text_color: (1,1,1,1)
+                background_color: (.334,.449,.423,1)
                 
                 on_press:
                     root.manager.transition.direction = "left"
