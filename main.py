@@ -2,6 +2,8 @@
 
 # libraries
 # import matplotlib as mpl
+from json import dump
+
 from db_eplusout_reader import Variable, get_results
 from db_eplusout_reader.constants import H
 
@@ -27,5 +29,17 @@ def collect_temperature_results(path):
     return get_results(path, variables=[Variable(None, None, "C")], frequency=H)
 
 
+# collecting temperature results
 temperature_results = collect_temperature_results(PATH_TO_FILE)
-print(temperature_results)
+
+# casting to list so can be serialized to json object, just using values
+temperature_results_values = list(temperature_results.values())
+with open("results_values.json", "w") as f:
+    dump(temperature_results_values, f, indent=4)
+
+# casting to list so can be serialied to json objects, just using headers/keys
+temperature_results_keys = list(temperature_results.keys())
+with open("results_keys.json", "w") as f:
+    dump(temperature_results_keys, f, indent=4)
+
+# plot the results using matplotlib
