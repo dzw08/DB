@@ -33,4 +33,5 @@ disable = [
     "C0115", # missing-class-docstring
 	"C0116", # missing-function-docstring
     "R1725", # python3-super-function
+    "E1101", # no-member (project contains dynamic members created at runtime)
 ]

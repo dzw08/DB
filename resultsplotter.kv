@@ -1,18 +1,27 @@
-<FrontPage>:
+<HomeScreen>:
 
-    orientation: 'vertical'
+    FloatLayout:
+        BoxLayout:
+            padding: 5
+            size_hint: (1,.3)
+            #pos_hint: {'x': .25, 'y': .4}
+            canvas.before:
+                Color:
+                    rgba: .129,.149,.192,1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                id: title
+                text: 'DB EPlusOut Results Manager'
+                color: (1,1,1,1)
 
-    BoxLayout:
-        padding: 5
-        canvas.before:
-            Color:
-                rgba: 255,255,255,1
-            Rectangle:
-                size: self.size
-                pos: self.pos
-
-        Button:
-            id: show
-            text: "Show results"
-            on_release: root.show()
-            color: (0,0,0)
+            Button:
+                id: show
+                text: "Show results"
+                text_color: (0,0,0)
+                
+                on_press:
+                    root.manager.transition.direction = "left"
+                    root.manager.current = "data"
+   
