@@ -15,7 +15,7 @@ from kivy.uix.modalview import ModalView
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 
-from no_gui import collect_temperature_results, plot_results
+from eplusout_tools import collect_temperature_results, plot_results
 
 
 class HomeScreen(Screen):
