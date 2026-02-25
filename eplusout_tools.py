@@ -6,9 +6,6 @@ from db_eplusout_reader import Variable, get_results
 from db_eplusout_reader.constants import RP, TS, A, D, H, M
 from numpy import arange
 
-# parse output file, usually ask for user input, however using example for now
-PATH_TO_FILE = r"./sample_sql_files/eplusout_hourly.sql"
-
 
 def collect_temperature_results(path: str, freq: str):
     """Using db_eplusout_reader to extract temperature results from eplusout SQL file.
@@ -18,7 +15,7 @@ def collect_temperature_results(path: str, freq: str):
     path
         location of sql file to be parsed
     freq
-        frequency of the data collection
+        frequency of the data collection: "RP", "TS", "A", "D", "H", "M"
 
     Returns
     -------
@@ -32,6 +29,8 @@ def collect_temperature_results(path: str, freq: str):
         list
         Raw values of temperatures.
     """
+
+    path = repr(path)[1:-1].strip()
 
     frequencies = {"TS": TS, "H": H, "D": D, "M": M, "A": A, "RP": RP}
     temp_results = get_results(
