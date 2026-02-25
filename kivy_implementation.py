@@ -1,10 +1,8 @@
 """Reads DesignBuilder EnergyPlus Output files."""
 
 # libraries
-# import matplotlib as mpl
 import os
 import sys
-from json import dump
 
 import matplotlib.pyplot as plt
 from db_eplusout_reader import Variable, get_results
@@ -77,13 +75,13 @@ def collect_temperature_results(path, freq):
 
     # casting to list so can be serialized to json object, just using values
     temp_results_values = list(temp_results.values())
-    with open("temp_results_values.json", "w") as f:
-        dump(temp_results_values, f, indent=4)
+    # with open("temp_results_values.json", "w") as f:
+    #    dump(temp_results_values, f, indent=4)
 
     # casting to list so can be serialied to json objects, just using headers/keys
     temp_results_keys = list(temp_results.keys())
-    with open("temp_results_keys.json", "w") as f:
-        dump(temp_results_keys, f, indent=4)
+    # with open("temp_results_keys.json", "w") as f:
+    #    dump(temp_results_keys, f, indent=4)
 
     return freq, temp_results_keys, temp_results_values
 
@@ -151,6 +149,17 @@ class HomeScreen(Screen):
         super(HomeScreen, self).__init__(**kwargs)
         self.path = 0
         self.frequency = 0
+        self.legend = False
+
+    # called by the toggle button when its state changes
+    def legend_query(self, state):
+        # update the toggle text and internal flag
+        if state == "down":
+            self.ids.legend_button.text = "ON"
+            self.legend = True
+        else:
+            self.ids.legend_button.text = "OFF"
+            self.legend = False
 
     def validate_path(self, value, instance):
         value = repr(value)[1:-1]
@@ -246,6 +255,12 @@ class HomeScreen(Screen):
 
             close.bind(on_press=error_message_frequency.dismiss)
             error_message_frequency.open()
+
+        try:
+            if self.legend:
+                fig.legend()
+        except UnboundLocalError:
+            pass
 
         try:
             data_screen = self.manager.get_screen("data")

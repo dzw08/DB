@@ -74,6 +74,30 @@
                     on_touch_up:
                         root.update_slider(self.value)
 
+        BoxLayout:
+            size_hint: (1,0.15)
+            pos_hint: {'x': 0, 'y':0.4}
+            Label:
+                id: legend_label
+                text: "Show Legend"
+                color: (1,1,1,1)
+            
+            BoxLayout:
+                padding: 5
+                canvas.before:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                
+                ToggleButton:
+                    id: legend_button
+                    text: "OFF"
+                    size_hint: (1, 0.5)
+                    pos_hint: {'x': 0, 'y': 0.25}
+                    on_state: root.legend_query(self.state)
+                    
             
         BoxLayout:
             size_hint: (1,.2)
