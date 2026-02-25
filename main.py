@@ -72,7 +72,7 @@ class HomeScreen(Screen):
             fig = plot_results(
                 temp_results_values, temp_results_keys, "Temperature", freq
             )
-        except (UnboundLocalError, TypeError, OSError):
+        except (UnboundLocalError, TypeError, OSError, KeyError):
             error_message_path = ModalView(
                 auto_dismiss=False, background_color=[0, 0, 0, 0.6]
             )
