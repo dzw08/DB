@@ -1,9 +1,6 @@
 """Reads DesignBuilder EnergyPlus Output files."""
 
 # libraries
-# import matplotlib as mpl
-from json import dump
-
 import matplotlib.pyplot as plt
 from db_eplusout_reader import Variable, get_results
 from db_eplusout_reader.constants import H
@@ -40,13 +37,13 @@ def collect_temperature_results(path):
 
     # casting to list so can be serialized to json object, just using values
     temp_results_values = list(temp_results.values())
-    with open("temp_results_values.json", "w") as f:
-        dump(temp_results_values, f, indent=4)
+    # with open("temp_results_values.json", "w") as f:
+    #    dump(temp_results_values, f, indent=4)
 
     # casting to list so can be serialied to json objects, just using headers/keys
     temp_results_keys = list(temp_results.keys())
-    with open("temp_results_keys.json", "w") as f:
-        dump(temp_results_keys, f, indent=4)
+    # with open("temp_results_keys.json", "w") as f:
+    #    dump(temp_results_keys, f, indent=4)
 
     return temp_results, temp_results_keys, temp_results_values
 
