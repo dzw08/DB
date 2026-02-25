@@ -4,7 +4,7 @@
 
 ***
 
-Python [Kivy](https://kivy.org/)-based GUI tool to plot temperature results from EnergyPlus output files (```.sql```) using [`db-eplusout-reader`](https://github.com/DesignBuilderSoftware/db-eplusout-reader) and [`matplotlib`](https://matplotlib.org/).
+Python [Kivy](https://kivy.org/)-based GUI tool to plot temperature results from EnergyPlus output files (```.sql```) using [`db-eplusout-reader`](https://github.com/DesignBuilderSoftware/db-eplusout-reader) and [`matplotlib`](https://github.com/matplotlib/matplotlib).
 
 ## Functionality
 
