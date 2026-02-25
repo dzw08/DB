@@ -34,4 +34,7 @@ disable = [
 	"C0116", # missing-function-docstring
     "R1725", # python3-super-function
     "E1101", # no-member (project contains dynamic members created at runtime)
+    "R0801", # similar-lines-in-two-files
+    "W0718", # too-general-exception
+    "E0606", # possibly-using-variable-before-assignment
 ]

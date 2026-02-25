@@ -1,16 +1,16 @@
 [
     [
-        "BLOCK1:ZONE1",
+        "ATRIUM:ZONE1",
         "Zone Mean Air Temperature",
         "C"
     ],
     [
-        "BLOCK1:ZONE1",
+        "ATRIUM:ZONE1",
         "Zone Mean Radiant Temperature",
         "C"
     ],
     [
-        "BLOCK1:ZONE1",
+        "ATRIUM:ZONE1",
         "Zone Operative Temperature",
         "C"
     ],
@@ -22,6 +22,66 @@
     [
         "Environment",
         "Site Outdoor Air Drybulb Temperature",
+        "C"
+    ],
+    [
+        "FLOOR1:ZONE1",
+        "Zone Mean Air Temperature",
+        "C"
+    ],
+    [
+        "FLOOR1:ZONE1",
+        "Zone Mean Radiant Temperature",
+        "C"
+    ],
+    [
+        "FLOOR1:ZONE1",
+        "Zone Operative Temperature",
+        "C"
+    ],
+    [
+        "GROUNDFLOOR:ZONE1",
+        "Zone Mean Air Temperature",
+        "C"
+    ],
+    [
+        "GROUNDFLOOR:ZONE1",
+        "Zone Mean Radiant Temperature",
+        "C"
+    ],
+    [
+        "GROUNDFLOOR:ZONE1",
+        "Zone Operative Temperature",
+        "C"
+    ],
+    [
+        "GROUNDFLOOR:ZONE1_GROUNDFLOOR_0_0_0",
+        "Surface Inside Face Temperature",
+        "C"
+    ],
+    [
+        "GROUNDFLOOR:ZONE1_GROUNDFLOOR_0_0_0",
+        "Surface Outside Face Temperature",
+        "C"
+    ],
+    [
+        "GROUNDFLOOR:ZONE1_GROUNDFLOOR_0_0_1",
+        "Surface Inside Face Temperature",
+        "C"
+    ],
+    [
+        "GROUNDFLOOR:ZONE1_GROUNDFLOOR_0_0_1",
+        "Surface Outside Face Temperature",
+        "C"
+    ],
+    [
+        "GROUNDFLOOR:ZONE1_GROUNDFLOOR_0_0_2",
+        "Surface Inside Face Temperature",
+        "C"
+    ],
+    [
+        "GROUNDFLOOR:ZONE1_GROUNDFLOOR_0_0_2",
+        "Surface Outside Face Temperature",
         "C"
     ]
 ]

@@ -2,9 +2,9 @@
 
     FloatLayout:
         BoxLayout:
-            padding: 5
-            size_hint: (1,.3)
-            #pos_hint: {'x': .25, 'y': .4}
+            padding:5
+            size_hint: (1,.15)
+            pos_hint: {'x': 0, 'y': .85}
             canvas.before:
                 Color:
                     rgba: .129,.149,.192,1
@@ -12,16 +12,89 @@
                     size: self.size
                     pos: self.pos
             Label:
-                id: title
+                id: header
                 text: 'DB EPlusOut Results Manager'
                 color: (1,1,1,1)
+
+        BoxLayout:
+            size_hint: (1,0.15)
+            pos_hint: {'x': 0, 'y':0.7}
+            Label:
+                id: text_label
+                text: "Enter SQL file path"
+                color: (1,1,1,1)
+            
+            BoxLayout:
+                padding: 5
+                canvas.before:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                
+                TextInput:
+                    id: path_input
+                    text: "Type path followed by enter key"
+                    size_hint: (1, 0.5)
+                    pos_hint: {'x': 0, 'y': 0.25}
+                    multiline: False
+                    unfocus_on_touch: True
+                    on_text_validate:
+                        root.validate_path(self.text,self)
+        
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: (1,0.15)
+            pos_hint: {'x': 0, 'y':0.55}
+            Label:
+                id: frequency_label
+                text: "Enter frequency of data"
+                color: (1,1,1,1)
+            BoxLayout:
+                canvas.before:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                
+                Label:
+                    id: frequency_label_value
+                    text: "Time Step"
+                    color: (1,1,1,1)
+                
+                Slider:
+                    id: frequency_slider
+                    min: 0
+                    max: 5
+                    step: 1
+                    orientation: 'horizontal'
+                    cursor_size: (26,26)
+                    on_touch_up:
+                        root.update_slider(self.value)
+
+            
+        BoxLayout:
+            size_hint: (1,.2)
+            #pos_hint: {'x': 0, 'y': 0}
+            canvas.before:
+                Color:
+                    rgba: .129,.149,.192,1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                id: home
+                text: 'Home'
+                text_color: (1,1,1,1)
 
             Button:
                 id: show
                 text: "Show results"
-                text_color: (0,0,0)
-                
+                text_color: (1,1,1,1)
+                background_color: (.334,.449,.423,1)
+
                 on_press:
-                    root.manager.transition.direction = "left"
-                    root.manager.current = "data"
+                    root.plot_graph()
    
