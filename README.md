@@ -51,7 +51,9 @@ Python [Kivy](https://kivy.org/)-based GUI tool to plot temperature results from
 
 ## Installation
 
-### Inital setup
+### With GUI
+
+**Install Dependencies**
 
 Use [uv](https://github.com/astral-sh/uv) to install required dependencies.
 
@@ -66,7 +68,7 @@ uv run pytest tests -v
 source ./.venv/bin/activate
 ```
 
-### Run main.py
+**Run main.py**
 
 Ensure you are in repo directory and run:
 
@@ -74,7 +76,36 @@ Ensure you are in repo directory and run:
 python main.py
 ```
 
+### Without GUI
+
+**Install Dependencies**
+
+Use [uv](https://github.com/astral-sh/uv) to install required dependencies.
+
+```bash
+# Install dependencies
+uv sync --group dev
+
+# Run tests
+uv run pytest tests -v
+
+# Switch to venv
+source ./.venv/bin/activate
+```
+
+**Run no_gui.py**
+
+Ensure you are in repo directory and run:
+
+```bash
+python no_gui.py
+```
+
+---
+
 ## Dependencies
+
+### GUI
 
 | Name             | Version | Use                                       |
 |------------------------|---------|-------------------------------------------|
@@ -82,4 +113,11 @@ python main.py
 | [`kivy`](https://github.com/kivy/kivy)                   | 3.13    | Provides GUI                              |
 | [`kivy-garden`](https://github.com/kivy-garden)            | 0.1.5   | Allows for matplotlib integration in kivy |
 | [`kivy-garden-matplotlib`](https://github.com/kivy-garden/matplotlib) <br> _Note this flower requires `distutils` which was removed in Python 3.12+, so use [`setuptools`](https://github.com/pypa/setuptools) instead_ | 0.1.1   | Allows for matplotlib integration in kivy |
+| [`matplotlib`](https://github.com/matplotlib/matplotlib)             | 3.10.8  | Plots the line graph with given data      |
+
+### No GUI
+
+| Name             | Version | Use                                       |
+|------------------------|---------|-------------------------------------------|
+| [`db-eplusout-reader`](https://github.com/DesignBuilderSoftware/db-eplusout-reader)     | 0.4.0   | Allows reading of eplusout SQL files      |
 | [`matplotlib`](https://github.com/matplotlib/matplotlib)             | 3.10.8  | Plots the line graph with given data      |
