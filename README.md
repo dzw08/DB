@@ -17,7 +17,7 @@ Python [Kivy](https://kivy.org/)-based GUI tool to plot temperature results from
 
 ### To display data:
 
-1. Run ```main.py``` and enter the file path into the text box.
+1. Run ```main.py``` and enter the file path into the text box **followed by the `enter` key**.
 
 ![Input file path](assets/readme/file_path.png "File path input")
 

@@ -19,13 +19,8 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 from numpy import arange
 
-# usually ask for user input, however using example for now
-# print("Enter SQL file path")
-# path = input()
-# PATH_TO_FILE = r"/home/dani/DB/eplusout.sql"
 
-
-def collect_temperature_results(path, freq):
+def collect_temperature_results(path: str, freq: str):
     """Using db_eplusout_reader to extract temperature results from eplusout SQL file.
 
     Parameters
@@ -48,53 +43,27 @@ def collect_temperature_results(path, freq):
         Raw values of temperatures.
     """
 
-    if freq == "TS":
-        temp_results = get_results(
-            path, variables=[Variable(None, None, "C")], frequency=TS
-        )
-    if freq == "H":
-        temp_results = get_results(
-            path, variables=[Variable(None, None, "C")], frequency=H
-        )
-    if freq == "D":
-        temp_results = get_results(
-            path, variables=[Variable(None, None, "C")], frequency=D
-        )
-    if freq == "M":
-        temp_results = get_results(
-            path, variables=[Variable(None, None, "C")], frequency=M
-        )
-    if freq == "A":
-        temp_results = get_results(
-            path, variables=[Variable(None, None, "C")], frequency=A
-        )
-    if freq == "RP":
-        temp_results = get_results(
-            path, variables=[Variable(None, None, "C")], frequency=RP
-        )
+    frequencies = {"TS": TS, "H": H, "D": D, "M": M, "A": A, "RP": RP}
+    temp_results = get_results(
+        path, variables=[Variable(None, None, "C")], frequency=frequencies[freq]
+    )
 
-    # casting to list so can be serialized to json object, just using values
+    # retrieving actual temp values as well as locations
     temp_results_values = list(temp_results.values())
-    # with open("temp_results_values.json", "w") as f:
-    #    dump(temp_results_values, f, indent=4)
-
-    # casting to list so can be serialied to json objects, just using headers/keys
     temp_results_keys = list(temp_results.keys())
-    # with open("temp_results_keys.json", "w") as f:
-    #    dump(temp_results_keys, f, indent=4)
 
     return freq, temp_results_keys, temp_results_values
 
 
-def plot_results(results_values, results_keys, data_type, freq):
+def plot_results(results_values: list, results_keys: list, data_type: str, freq: str):
     """Plots db-eplusout-reader output files in a line graph using matplotlib.
 
     Parameters
     ----------
     results_values
-        ARRAY The actual values of the data.
+        LIST The actual values of the data.
     results_keys
-        ARRAY What the values of the data refer to as well as their units.
+        LIST What the values of the data refer to as well as their units.
     data_type
         STR What kind of data, e.g. Temperature or energy
 
@@ -102,18 +71,17 @@ def plot_results(results_values, results_keys, data_type, freq):
     -------
     Plotted matplotlib data
     """
-    # plot the results using matplotlib
+
     units_passed = len(results_values[0])
     time_units = list(range(units_passed))
 
     plt.figure(dpi=100)
-    # enumerate through the headers to label each line
     for i, keys in enumerate(results_keys):
         plt.plot(
             time_units,
             results_values[i],
             label=f"{keys[0]} {keys[1]}",
-        )  # plotting the data on the axes
+        )
 
     # labels
     if freq == "TS":
@@ -143,7 +111,6 @@ def plot_results(results_values, results_keys, data_type, freq):
     return plt
 
 
-# setting up front page class
 class HomeScreen(Screen):
     def __init__(self, **kwargs):
         super(HomeScreen, self).__init__(**kwargs)
@@ -151,9 +118,7 @@ class HomeScreen(Screen):
         self.frequency = 0
         self.legend = False
 
-    # called by the toggle button when its state changes
     def legend_query(self, state):
-        # update the toggle text and internal flag
         if state == "down":
             self.ids.legend_button.text = "ON"
             self.legend = True
@@ -172,28 +137,27 @@ class HomeScreen(Screen):
         return instance
 
     def update_slider(self, value):
-        if value == 0:
-            self.ids.frequency_label_value.text = "Time Step"
-            self.frequency = "TS"
-        if value == 1:
-            self.ids.frequency_label_value.text = "Hourly"
-            self.frequency = "H"
-        if value == 2:
-            self.ids.frequency_label_value.text = "Daily"
-            self.frequency = "D"
-        if value == 3:
-            self.ids.frequency_label_value.text = "Monthly"
-            self.frequency = "M"
-        if value == 4:
-            self.ids.frequency_label_value.text = "Annual"
-            self.frequency = "A"
-        if value == 5:
-            self.ids.frequency_label_value.text = "Run Period"
-            self.frequency = "RP"
+        match value:
+            case 0:
+                self.ids.frequency_label_value.text = "Time Step"
+                self.frequency = "TS"
+            case 1:
+                self.ids.frequency_label_value.text = "Hourly"
+                self.frequency = "H"
+            case 2:
+                self.ids.frequency_label_value.text = "Daily"
+                self.frequency = "D"
+            case 3:
+                self.ids.frequency_label_value.text = "Monthly"
+                self.frequency = "M"
+            case 4:
+                self.ids.frequency_label_value.text = "Annual"
+                self.frequency = "A"
+            case 5:
+                self.ids.frequency_label_value.text = "Run Period"
+                self.frequency = "RP"
 
     def plot_graph(self):
-        # method for when the 'show results' button is clicked
-        # if file path invalid, then return the error screen
         try:
             freq, temp_results_keys, temp_results_values = collect_temperature_results(
                 self.path, self.frequency
@@ -272,7 +236,6 @@ class HomeScreen(Screen):
             pass
 
 
-# setting up screen that shows the plotted data
 class DataScreen(Screen):
     def __init__(self, **kwargs):
         super(DataScreen, self).__init__(**kwargs)
@@ -288,7 +251,6 @@ class DataScreen(Screen):
             pos=lambda inst, val: setattr(self._header_rect, "pos", val),
         )
 
-        # assigning the plotted Kivy-compatible matplotlib graph to variable
         self.graph_container = BoxLayout(
             size_hint=(1, 0.8), pos_hint={"x": 0, "y": 0.2}
         )
@@ -317,7 +279,6 @@ class DataScreen(Screen):
         self.graph_container.add_widget(self.canvas_widget)
 
 
-# setting up app class from KivyApp for main app
 class ResultsPlotterApp(App):
     def build(self):
         sm = ScreenManager()
