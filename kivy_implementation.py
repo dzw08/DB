@@ -16,6 +16,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
+from kivy.uix.modalview import ModalView
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 from numpy import arange
@@ -154,7 +155,7 @@ class HomeScreen(Screen):
     def validate_path(self, value, instance):
         value = repr(value)[1:-1]
         value = value.strip()
-        if "\\" in value or "/" in value:
+        if ("\\" in value or "/" in value) and ".sql" in value[-4:]:
             self.path = value
         else:
             self.ids.path_input.text = "Invalid file. Try again"
@@ -182,20 +183,78 @@ class HomeScreen(Screen):
             self.frequency = "RP"
 
     def plot_graph(self):
-        freq, temp_results_keys, temp_results_values = collect_temperature_results(
-            self.path, self.frequency
-        )
-        fig = plot_results(temp_results_values, temp_results_keys, "Temperature", freq)
+        # method for when the 'show results' button is clicked
+        # if file path invalid, then return the error screen
+        try:
+            freq, temp_results_keys, temp_results_values = collect_temperature_results(
+                self.path, self.frequency
+            )
+            fig = plot_results(
+                temp_results_values, temp_results_keys, "Temperature", freq
+            )
+        except (UnboundLocalError, TypeError, OSError):
+            error_message_path = ModalView(
+                auto_dismiss=False, background_color=[0, 0, 0, 0.6]
+            )
+
+            content = FloatLayout()
+
+            holder = BoxLayout(
+                padding=5,
+                orientation="vertical",
+                size_hint=(0.5, 0.2),
+                pos_hint={"x": 0.25, "y": 0.4},
+            )
+            holder.add_widget(
+                Label(
+                    text="Error! Please enter valid path to SQL file",
+                    color=[1, 0.29, 0.31, 1],
+                )
+            )
+            close = Button(text="Dismiss")
+            holder.add_widget(close)
+
+            content.add_widget(holder)
+            error_message_path.add_widget(content)
+
+            close.bind(on_press=error_message_path.dismiss)
+            error_message_path.open()
+        except IndexError:
+            error_message_frequency = ModalView(
+                auto_dismiss=False, background_color=[0, 0, 0, 0.6]
+            )
+
+            content = FloatLayout()
+
+            holder = BoxLayout(
+                padding=5,
+                orientation="vertical",
+                size_hint=(0.5, 0.2),
+                pos_hint={"x": 0.25, "y": 0.4},
+            )
+            holder.add_widget(
+                Label(
+                    text="Error! Please enter correct frequency of data collection",
+                    color=[1, 0.29, 0.31, 1],
+                )
+            )
+            close = Button(text="Dismiss")
+            holder.add_widget(close)
+
+            content.add_widget(holder)
+            error_message_frequency.add_widget(content)
+
+            close.bind(on_press=error_message_frequency.dismiss)
+            error_message_frequency.open()
 
         try:
             data_screen = self.manager.get_screen("data")
             if hasattr(data_screen, "update_canvas"):
                 data_screen.update_canvas(fig)
+            self.manager.transition.direction = "left"
+            self.manager.current = "data"
         except Exception:
             pass
-
-        self.manager.transition.direction = "left"
-        self.manager.current = "data"
 
 
 # setting up screen that shows the plotted data
