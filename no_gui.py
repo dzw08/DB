@@ -13,7 +13,7 @@ from numpy import arange
 
 # print("Enter eso file path")
 # path = input()
-PATH_TO_FILE = r"/home/dani/DB/eplusout.sql"
+PATH_TO_FILE = r"./sample_sql_files/eplusout_hourly.sql"
 
 
 def collect_temperature_results(path):

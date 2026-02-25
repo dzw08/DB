@@ -1,0 +1,27 @@
+[
+    [
+        "BLOCK1:ZONE1",
+        "Zone Mean Air Temperature",
+        "C"
+    ],
+    [
+        "BLOCK1:ZONE1",
+        "Zone Mean Radiant Temperature",
+        "C"
+    ],
+    [
+        "BLOCK1:ZONE1",
+        "Zone Operative Temperature",
+        "C"
+    ],
+    [
+        "Environment",
+        "Site Outdoor Air Dewpoint Temperature",
+        "C"
+    ],
+    [
+        "Environment",
+        "Site Outdoor Air Drybulb Temperature",
+        "C"
+    ]
+]
