@@ -243,7 +243,7 @@ class HomeScreen(Screen):
             )
             holder.add_widget(
                 Label(
-                    text="Error! Please enter correct frequency of data collection",
+                    text="Error! Please enter correct output interval frequency.",
                     color=[1, 0.29, 0.31, 1],
                 )
             )
