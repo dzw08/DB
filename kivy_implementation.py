@@ -158,6 +158,7 @@ class HomeScreen(Screen):
             self.path = value
         else:
             self.ids.path_input.text = "Invalid file. Try again"
+
         return instance
 
     def update_slider(self, value):
@@ -249,9 +250,6 @@ class ResultsPlotterApp(App):
         # default to sliding right for any screen change
         sm.transition.direction = "right"
 
-        # update screens
-        sm.remove_widget(HomeScreen(name="home"))
-        sm.remove_widget(DataScreen(name="data"))
         sm.add_widget(HomeScreen(name="home"))
         sm.add_widget(DataScreen(name="data"))
 
