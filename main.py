@@ -1,4 +1,4 @@
-"""Reads DesignBuilder EnergyPlus Output files."""
+"""Displays and plots DesignBuilder EnergyPlus Output files."""
 
 # libraries
 import os
