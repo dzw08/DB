@@ -94,8 +94,8 @@ class HomeScreen(Screen):
             )
             holder.add_widget(
                 Label(
-                    text="Error! Please enter valid path to SQL file"
-                    " and select correct frequency first.",
+                    text="Error! Please enter valid path to SQL file "
+                    "and select correct frequency first.",
                     color=[1, 0.29, 0.31, 1],
                 )
             )
