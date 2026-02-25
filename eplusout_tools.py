@@ -19,9 +19,9 @@ def collect_temperature_results(path: str, freq: str):
 
     Returns
     -------
-    temp_results
-        dictionary
-        Raw ResultsDictionary object of file parsing.
+    freq
+        str
+        frequency of the data collection: "RP", "TS", "A", "D", "H", "M"
     temp_results_keys
         list
         Location, description and units of temperatures.
@@ -55,6 +55,8 @@ def plot_results(results_values: list, results_keys: list, data_type: str, freq:
         LIST What the values of the data refer to as well as their units.
     data_type
         STR What kind of data, e.g. Temperature or energy
+    freq
+        STR Frequency of data collection intervals
 
     Returns
     -------
