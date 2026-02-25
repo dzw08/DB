@@ -1,10 +1,52 @@
 [project]
-name = "db-file-reader"
+name = "DB eplusout SQL reader"
 version = "0.1.0"
 description = "Python tool using db-eplusout-reader that reads EnergyPlus output files"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+	"astroid==4.0.4",
+	"certifi==2026.1.4",
+	"cfgv==3.5.0",
+	"charset-normalizer==3.4.4",
+	"contourpy==1.3.3",
+	"cycler==0.12.1",
+	"db-eplusout-reader @ git+https://github.com/DesignBuilderSoftware/db-eplusout-reader.git@a105054e51be7b236f03481af8716e96ef6ffd21",
+	"dill==0.4.1",
+	"distlib==0.4.0",
+	"docutils==0.22.4",
+	"filelock==3.24.3",
+	"filetype==1.2.0",
+	"fonttools==4.61.1",
+	"identify==2.6.16",
+	"idna==3.11",
+	"isort==8.0.0",
+	"kivy==2.3.1"
+	"kivy-garden==0.1.5",
+	"kivy-garden-matplotlib==0.1.1.dev0",
+	"kiwisolver==1.4.9",
+	"matplotlib==3.10.8",
+	"mccabe==0.7.0",
+	"nodeenv==1.10.0",
+	"numpy==2.4.2",
+	"packaging==26.0",
+	"pillow==12.1.1",
+	"platformdirs==4.9.2",
+	"pre-commit==4.5.1",
+	"pygments==2.19.2",
+	"pylint==4.0.5",
+	"pyparsing==3.3.2",
+	"python-dateutil==2.9.0.post0",
+	"pyyaml==6.0.3",
+	"requests==2.32.5",
+	"ruff==0.15.2",
+	"setuptools==82.0.0",
+	"six==1.17.0",
+	"tomlkit==0.14.0",
+	"urllib3==2.6.3",
+	"virtualenv==20.38.0"
+	
+]
 
 [dependency-groups]
 dev = [
