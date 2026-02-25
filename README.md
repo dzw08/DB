@@ -61,6 +61,9 @@ uv sync --group dev
 
 # Run tests
 uv run pytest tests -v
+
+# Switch to venv
+source ./.venv/bin/activate
 ```
 
 ### Run main.py
@@ -73,7 +76,7 @@ python main.py
 
 ## Dependencies
 
-| Dependency             | Version | Use                                       |
+| Name             | Version | Use                                       |
 |------------------------|---------|-------------------------------------------|
 | [`db-eplusout-reader`](https://github.com/DesignBuilderSoftware/db-eplusout-reader)     | 0.4.0   | Allows reading of eplusout SQL files      |
 | [`kivy`](https://kivy.org)                   | 3.13    | Provides GUI                              |

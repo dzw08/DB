@@ -1,5 +1,5 @@
 [project]
-name = "DB eplusout SQL reader"
+name = "db-eplusout-sql-plotter"
 version = "0.1.0"
 description = "Python tool using db-eplusout-reader that reads EnergyPlus output files"
 readme = "README.md"
@@ -21,7 +21,7 @@ dependencies = [
 	"identify==2.6.16",
 	"idna==3.11",
 	"isort==8.0.0",
-	"kivy==2.3.1"
+	"kivy==2.3.1",
 	"kivy-garden==0.1.5",
 	"kivy-garden-matplotlib==0.1.1.dev0",
 	"kiwisolver==1.4.9",
