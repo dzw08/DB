@@ -79,7 +79,7 @@ python main.py
 | Name             | Version | Use                                       |
 |------------------------|---------|-------------------------------------------|
 | [`db-eplusout-reader`](https://github.com/DesignBuilderSoftware/db-eplusout-reader)     | 0.4.0   | Allows reading of eplusout SQL files      |
-| [`kivy`](https://kivy.org)                   | 3.13    | Provides GUI                              |
-| [`kivy-garden`](https://kivy.org/doc/stable/api-kivy.garden.html)            | 0.1.5   | Allows for matplotlib integration in kivy |
+| [`kivy`](https://github.com/kivy/kivy)                   | 3.13    | Provides GUI                              |
+| [`kivy-garden`](https://github.com/kivy-garden)            | 0.1.5   | Allows for matplotlib integration in kivy |
 | [`kivy-garden-matplotlib`](https://github.com/kivy-garden/matplotlib) <br> _Note this flower requires `distutils` which was removed in Python 3.12+, so use [`setuptools`](https://github.com/pypa/setuptools) instead_ | 0.1.1   | Allows for matplotlib integration in kivy |
 | [`matplotlib`](https://github.com/matplotlib/matplotlib)             | 3.10.8  | Plots the line graph with given data      |
