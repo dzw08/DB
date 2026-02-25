@@ -15,41 +15,13 @@
                 id: header
                 text: 'DB EPlusOut Results Manager'
                 color: (1,1,1,1)
-
-        BoxLayout:
-            size_hint: (1,0.15)
-            pos_hint: {'x': 0, 'y':0.7}
-            Label:
-                id: text_label
-                text: "Enter SQL file path"
-                color: (1,1,1,1)
-            
-            BoxLayout:
-                padding: 5
-                canvas.before:
-                    Color:
-                        rgba: 0,0,0,1
-                    Rectangle:
-                        size: self.size
-                        pos: self.pos
-                
-                TextInput:
-                    id: path_input
-                    text: "Type path followed by enter key"
-                    size_hint: (1, 0.5)
-                    pos_hint: {'x': 0, 'y': 0.25}
-                    multiline: False
-                    unfocus_on_touch: True
-                    on_text_validate:
-                        root.validate_path(self.text,self)
-        
         BoxLayout:
             orientation: 'horizontal'
             size_hint: (1,0.15)
-            pos_hint: {'x': 0, 'y':0.55}
+            pos_hint: {'x': 0, 'y':0.7}
             Label:
                 id: frequency_label
-                text: "Enter interval of data outputs"
+                text: "1. Enter interval of data outputs"
                 color: (1,1,1,1)
             BoxLayout:
                 canvas.before:
@@ -76,10 +48,39 @@
 
         BoxLayout:
             size_hint: (1,0.15)
+            pos_hint: {'x': 0, 'y':0.55}
+            Label:
+                id: text_label
+                text: "2. Enter SQL file path"
+                color: (1,1,1,1)
+            
+            BoxLayout:
+                padding: 5
+                canvas.before:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                
+                TextInput:
+                    id: path_input
+                    text: "Type path followed by enter key"
+                    size_hint: (1, 0.5)
+                    pos_hint: {'x': 0, 'y': 0.25}
+                    multiline: False
+                    unfocus_on_touch: True
+                    on_text_validate:
+                        root.validate_path(self.text,self)
+        
+
+
+        BoxLayout:
+            size_hint: (1,0.15)
             pos_hint: {'x': 0, 'y':0.4}
             Label:
                 id: legend_label
-                text: "Show Legend"
+                text: "3. Show Legend"
                 color: (1,1,1,1)
             
             BoxLayout:
@@ -97,6 +98,30 @@
                     size_hint: (1, 0.5)
                     pos_hint: {'x': 0, 'y': 0.25}
                     on_state: root.legend_query(self.state)
+
+        BoxLayout:
+            size_hint: (1,0.15)
+            pos_hint: {'x': 0, 'y':0.25}
+            Label:
+                id: variable_label
+                text: "4. Variables to plot"
+                color: (1,1,1,1)
+            
+            BoxLayout:
+                padding: 5
+                canvas.before:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                
+                Button:
+                    id: variable_button
+                    text: "Manage variables"
+                    size_hint: (1, 0.5)
+                    pos_hint: {'x': 0, 'y': 0.25}
+                    on_press: root.update_variables()
                     
             
         BoxLayout:

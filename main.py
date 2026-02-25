@@ -24,6 +24,8 @@ class HomeScreen(Screen):
         self.path = 0
         self.frequency = 0
         self.legend = False
+        self.headers = 0
+        self.temps = 0
 
     def legend_query(self, state):
         if state == "down":
@@ -42,6 +44,69 @@ class HomeScreen(Screen):
             self.ids.path_input.text = "Invalid file. Try again"
 
         return instance
+
+    def update_variables(self):
+
+        try:
+            frequency, self.headers, self.temps = collect_temperature_results(
+                self.path, self.frequency
+            )
+            headers_length = len(self.headers)
+            if headers_length <= 0:
+                raise IndexError
+            manager = ModalView(auto_dismiss=False, background_color=[0, 0, 0, 0.6])
+
+            container1 = FloatLayout()
+
+            container = BoxLayout(
+                padding=5,
+                orientation="vertical",
+                size_hint=(0.7, 1),
+                pos_hint={"x": 0.15, "y": 0},
+            )
+            for i in range(headers_length):
+                current = Button(text=f"{self.headers[i][0]} {self.headers[i][1]}")
+                container.add_widget(current)
+            select_all = Button(text="Select all")
+            container.add_widget(select_all)
+            close = Button(text="Dismiss")
+            container.add_widget(close)
+
+            container1.add_widget(container)
+
+            manager.add_widget(container1)
+
+            close.bind(on_press=manager.dismiss)
+            manager.open()
+
+        except (TypeError, IndexError, KeyError):
+            error_message_variable = ModalView(
+                auto_dismiss=False, background_color=[0, 0, 0, 0.6]
+            )
+
+            content = FloatLayout()
+
+            holder = BoxLayout(
+                padding=5,
+                orientation="vertical",
+                size_hint=(0.5, 0.2),
+                pos_hint={"x": 0.25, "y": 0.4},
+            )
+            holder.add_widget(
+                Label(
+                    text="Error! Please enter valid path to SQL file"
+                    " and select correct frequency first.",
+                    color=[1, 0.29, 0.31, 1],
+                )
+            )
+            close = Button(text="Dismiss")
+            holder.add_widget(close)
+
+            content.add_widget(holder)
+            error_message_variable.add_widget(content)
+
+            close.bind(on_press=error_message_variable.dismiss)
+            error_message_variable.open()
 
     def update_slider(self, value):
         match value:
@@ -99,6 +164,7 @@ class HomeScreen(Screen):
 
             close.bind(on_press=error_message_path.dismiss)
             error_message_path.open()
+
         except IndexError:
             error_message_frequency = ModalView(
                 auto_dismiss=False, background_color=[0, 0, 0, 0.6]
