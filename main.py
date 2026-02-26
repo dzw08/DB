@@ -14,9 +14,12 @@ from kivy.uix.label import Label
 from kivy.uix.modalview import ModalView
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.togglebutton import ToggleButton
 from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 
 from eplusout_tools import collect_temperature_results, plot_results
+
+# test file -> ./sample_sql_files/eplusout_hourly.sql
 
 
 class HomeScreen(Screen):
@@ -27,6 +30,30 @@ class HomeScreen(Screen):
         self.legend = False
         self.headers = 0
         self.temps = 0
+        self.variable_container = 0
+        self.variable_states = {}
+        self.select_all = 0
+        self.new_headers = []
+        self.new_temps = []
+
+    def results_collection(self):
+        self.frequency, self.headers, self.temps = collect_temperature_results(
+            self.path, self.frequency
+        )
+
+    def save_variables(self):
+        if not self.variable_states:
+            self.new_headers = self.headers
+            self.new_temps = self.temps
+        else:
+            for h in self.variable_states.keys():
+                if self.variable_states[h]:
+                    self.new_headers.append([h, "", "C"])
+            for i, label in enumerate(self.headers):
+                for head in self.new_headers:
+                    if head[0] == f"{label[0]} {label[1]}":
+                        index_head = i
+                        self.new_temps.append(self.temps[index_head])
 
     def legend_query(self, state):
         if state == "down":
@@ -41,48 +68,84 @@ class HomeScreen(Screen):
         value = value.strip()
         if ("\\" in value or "/" in value) and ".sql" in value[-4:]:
             self.path = value
+            try:
+                self.results_collection()
+            except (TypeError, IndexError, KeyError):
+                pass
         else:
             self.ids.path_input.text = "Invalid file. Try again"
 
         return instance
 
+    def on_variable_toggle(self, instance, value):
+        self.variable_states[instance.text] = value == "down"
+
+    def variable_select_all(self, instance):
+        if self.select_all.text == "Deselect all":
+            for choice in self.variable_container.children:
+                choice.state = "normal"
+                self.variable_states[choice.text] = False
+            self.select_all.text = "Select all"
+        else:
+            for choice in self.variable_container.children:
+                choice.state = "down"
+                self.variable_states[choice.text] = True
+            self.select_all.text = "Deselect all"
+            print(self.variable_states)
+        return instance
+
+    def variable_selected(self, instance):
+        for choice in self.variable_container.children:
+            self.variable_states[choice.text] = choice.state == "down"
+        return instance
+
     def update_variables(self):
 
         try:
-            frequency, self.headers, self.temps = collect_temperature_results(
-                self.path, self.frequency
-            )
             headers_length = len(self.headers)
             if headers_length <= 0:
                 raise IndexError
             manager = ModalView(auto_dismiss=False, background_color=[0, 0, 0, 0.6])
 
-            root = BoxLayout(orientation="vertical", padding=5)
+            main_view = BoxLayout(orientation="vertical", padding=5)
 
             recycle = RecycleView(size_hint=(1, 0.8))
-            list_container = BoxLayout(
+            self.variable_container = BoxLayout(
                 orientation="vertical", size_hint_y=None, padding=5, spacing=5
             )
 
-            list_container.bind(minimum_height=list_container.setter("height"))
+            self.variable_container.bind(
+                minimum_height=self.variable_container.setter("height")
+            )
 
             for h in self.headers:
-                current = Button(text=f"{h[0]} {h[1]}", size_hint_y=None, height=40)
-                list_container.add_widget(current)
+                state = (
+                    "down"
+                    if self.variable_states.get(f"{h[0]} {h[1]}", True)
+                    else "normal"
+                )
+                current = ToggleButton(
+                    text=f"{h[0]} {h[1]}", size_hint_y=None, height=40, state=state
+                )
+                current.bind(on_state=self.on_variable_toggle)
+                self.variable_container.add_widget(current)
 
-            recycle.add_widget(list_container)
-            root.add_widget(recycle)
+            recycle.add_widget(self.variable_container)
+            main_view.add_widget(recycle)
 
             footer = BoxLayout(size_hint=(1, 0.2))
-            select_all = Button(text="Select all")
+            self.select_all = Button(
+                text="Deselect all", on_press=self.variable_select_all
+            )
             close = Button(text="Dismiss")
-            footer.add_widget(select_all)
+            close.bind(on_press=manager.dismiss)
+            close.bind(on_press=self.variable_selected)
+            footer.add_widget(self.select_all)
             footer.add_widget(close)
 
-            root.add_widget(footer)
-            manager.add_widget(root)
+            main_view.add_widget(footer)
+            manager.add_widget(main_view)
 
-            close.bind(on_press=manager.dismiss)
             manager.open()
 
         except (TypeError, IndexError, KeyError):
@@ -135,13 +198,19 @@ class HomeScreen(Screen):
                 self.ids.frequency_label_value.text = "Run Period"
                 self.frequency = "RP"
 
+        try:
+            self.results_collection()
+        except (KeyError, IndexError, TypeError):
+            pass
+
     def plot_graph(self):
         try:
-            freq, temp_results_keys, temp_results_values = collect_temperature_results(
-                self.path, self.frequency
-            )
+            self.results_collection()
+            self.new_temps = []
+            self.new_headers = []
+            self.save_variables()
             fig = plot_results(
-                temp_results_values, temp_results_keys, "Temperature", freq
+                self.new_temps, self.new_headers, "Temperature", self.frequency
             )
         except (UnboundLocalError, TypeError, OSError, KeyError):
             error_message_path = ModalView(
@@ -237,15 +306,15 @@ class DataScreen(Screen):
 
         layout.add_widget(self.graph_container)
         layout1.add_widget(Label(text="Graph"))
-        layout1.add_widget(
-            Button(
-                text="Back",
-                on_press=lambda inst: (
-                    setattr(self.manager.transition, "direction", "right")
-                    or setattr(self.manager, "current", "home")
-                ),
-            )
+        back = Button(
+            text="Back",
+            on_press=lambda inst: (
+                setattr(self.manager.transition, "direction", "right")
+                or setattr(self.manager, "current", "home")
+            ),
         )
+        back.bind(on_press=HomeScreen().results_collection)
+        layout1.add_widget(back)
 
         layout.add_widget(layout1)
 

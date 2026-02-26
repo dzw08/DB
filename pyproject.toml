@@ -79,4 +79,5 @@ disable = [
     "R0801", # similar-lines-in-two-files
     "W0718", # too-general-exception
     "E0606", # possibly-using-variable-before-assignment
+    "R0902", # too-many-instance-attributes
 ]
