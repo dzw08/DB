@@ -80,4 +80,5 @@ disable = [
     "W0718", # too-general-exception
     "E0606", # possibly-using-variable-before-assignment
     "R0902", # too-many-instance-attributes
+    "W0613", # unused-argument
 ]

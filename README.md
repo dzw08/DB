@@ -29,6 +29,14 @@ Python [Kivy](https://kivy.org/)-based GUI tool to plot temperature results from
 
 ![Legend](assets/readme/legend.png "Legend")
 
+4. Select variables to plot, otherwise, defaults to `all`.
+
+![Variables](assets/readme/variables.png "Variables")
+This brings up a context menu that displays as follows, given all other parameters are valid:
+![Variable list](assets/readme/variables_menu.png "Variables list")
+
+Select the ones to be plotted.
+
 ---
 
 > To run the sample file, use file path

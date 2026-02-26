@@ -72,10 +72,10 @@ class HomeScreen(Screen):
                 self.results_collection()
             except (TypeError, IndexError, KeyError):
                 pass
+            except OSError:
+                self.ids.path_input.text = "Invalid file. Try again"
         else:
             self.ids.path_input.text = "Invalid file. Try again"
-
-        return instance
 
     def on_variable_toggle(self, instance, value):
         self.variable_states[instance.text] = value == "down"
@@ -91,13 +91,10 @@ class HomeScreen(Screen):
                 choice.state = "down"
                 self.variable_states[choice.text] = True
             self.select_all.text = "Deselect all"
-            print(self.variable_states)
-        return instance
 
     def variable_selected(self, instance):
         for choice in self.variable_container.children:
             self.variable_states[choice.text] = choice.state == "down"
-        return instance
 
     def update_variables(self):
 
