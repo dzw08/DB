@@ -32,10 +32,10 @@ Python [Kivy](https://kivy.org/)-based GUI tool to plot temperature results from
 4. Select variables to plot, otherwise, defaults to `all`.
 
 ![Variables](assets/readme/variables.png "Variables")
-This brings up a context menu that displays as follows, given all other parameters are valid:
+Given all other parameters are valid, this should display as follows:
 ![Variable list](assets/readme/variables_menu.png "Variables list")
 
-Select the ones to be plotted.
+Select the variables to be plotted.
 
 ---
 
@@ -46,12 +46,14 @@ Select the ones to be plotted.
 > **For Windows**: ```.\sample_sql_files\eplusout_hourly.sql```
 >
 > And select data interval `Hourly`.
+>
+> Or choose one of the other sample files from the directory.
 
 ---
 
 ### Output
 
-4. Click the `show results` button.
+4. Click the `Show Results` button.
 5. This will take you to a secondary screen that should display like this:
 
 ![Output graph](assets/readme/output.png "Output graph")
@@ -83,6 +85,8 @@ Ensure you are in repo directory and run:
 ```bash
 python main.py
 ```
+
+---
 
 ### Without GUI
 
@@ -123,7 +127,7 @@ python no_gui.py
 | [`kivy-garden-matplotlib`](https://github.com/kivy-garden/matplotlib) <br> _Note this flower requires `distutils` which was removed in Python 3.12+, so use [`setuptools`](https://github.com/pypa/setuptools) instead_ | 0.1.1   | Allows for matplotlib integration in kivy |
 | [`matplotlib`](https://github.com/matplotlib/matplotlib)             | 3.10.8  | Plots the line graph with given data      |
 
-### No GUI
+### No-GUI
 
 | Name             | Version | Use                                       |
 |------------------------|---------|-------------------------------------------|
