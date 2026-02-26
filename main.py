@@ -13,6 +13,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.modalview import ModalView
 from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.scrollview import ScrollView
 from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 
 from eplusout_tools import collect_temperature_results, plot_results
@@ -56,25 +57,30 @@ class HomeScreen(Screen):
                 raise IndexError
             manager = ModalView(auto_dismiss=False, background_color=[0, 0, 0, 0.6])
 
-            container1 = FloatLayout()
+            root = BoxLayout(orientation="vertical", padding=5)
 
-            container = BoxLayout(
-                padding=5,
-                orientation="vertical",
-                size_hint=(0.7, 1),
-                pos_hint={"x": 0.15, "y": 0},
+            scroll = ScrollView(size_hint=(1, 0.8))
+            list_container = BoxLayout(
+                orientation="vertical", size_hint_y=None, padding=5, spacing=5
             )
-            for i in range(headers_length):
-                current = Button(text=f"{self.headers[i][0]} {self.headers[i][1]}")
-                container.add_widget(current)
+
+            list_container.bind(minimum_height=list_container.setter("height"))
+
+            for h in self.headers:
+                current = Button(text=f"{h[0]} {h[1]}", size_hint_y=None, height=40)
+                list_container.add_widget(current)
+
+            scroll.add_widget(list_container)
+            root.add_widget(scroll)
+
+            footer = BoxLayout(size_hint=(1, 0.2))
             select_all = Button(text="Select all")
-            container.add_widget(select_all)
             close = Button(text="Dismiss")
-            container.add_widget(close)
+            footer.add_widget(select_all)
+            footer.add_widget(close)
 
-            container1.add_widget(container)
-
-            manager.add_widget(container1)
+            root.add_widget(footer)
+            manager.add_widget(root)
 
             close.bind(on_press=manager.dismiss)
             manager.open()
