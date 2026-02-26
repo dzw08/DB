@@ -12,8 +12,8 @@ from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.modalview import ModalView
+from kivy.uix.recycleview import RecycleView
 from kivy.uix.screenmanager import Screen, ScreenManager
-from kivy.uix.scrollview import ScrollView
 from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 
 from eplusout_tools import collect_temperature_results, plot_results
@@ -59,7 +59,7 @@ class HomeScreen(Screen):
 
             root = BoxLayout(orientation="vertical", padding=5)
 
-            scroll = ScrollView(size_hint=(1, 0.8))
+            recycle = RecycleView(size_hint=(1, 0.8))
             list_container = BoxLayout(
                 orientation="vertical", size_hint_y=None, padding=5, spacing=5
             )
@@ -70,8 +70,8 @@ class HomeScreen(Screen):
                 current = Button(text=f"{h[0]} {h[1]}", size_hint_y=None, height=40)
                 list_container.add_widget(current)
 
-            scroll.add_widget(list_container)
-            root.add_widget(scroll)
+            recycle.add_widget(list_container)
+            root.add_widget(recycle)
 
             footer = BoxLayout(size_hint=(1, 0.2))
             select_all = Button(text="Select all")
