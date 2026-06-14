@@ -39,15 +39,15 @@ Select the variables to be plotted.
 
 ---
 
-> To run the sample file, use file path
+> To run the sample file, use file path:
 > 
-> **For MacOS and Linux**: ```./sample_sql_files/eplusout_hourly.sql```
+> - **For MacOS and Linux**: ```./sample_sql_files/eplusout_hourly.sql```
 >
-> **For Windows**: ```.\sample_sql_files\eplusout_hourly.sql```
+> - **For Windows**: ```.\sample_sql_files\eplusout_hourly.sql```
 >
 > And select data interval `Hourly`.
 >
-> Or choose one of the other sample files from the directory.
+> Or choose one of the other sample SQL files from the directory.
 
 ---
 
